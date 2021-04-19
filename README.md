@@ -1,12 +1,12 @@
 # Disaster Response Pipeline Project
 
-##Summary
+### Summary
 In this project I will be using a data set containing messages provided by Figure8, that were sent during disaster events and build a classifier to identify messages or events in need of attention or relief. 
 I create a machine learning pipeline that uses NLTK, as well as scikit-learn's Pipeline and GridSearchCV to output a final model. Finally, I export the model to a pickle file.
 
 The best performing machine learning model will be deployed as a webapp using bootstrap and Flask where the user can test their own tentative messages to see how they would be classified with the models I selected and trained. Through the web app the user can also consult visualizations of the clean and transformed data.
 
-##Files
+### Files
 * \app
   * run.py -> this file runs the flask application and uses the model created during data processing to analyse messages entered by users. It also has some data visualization.
   
