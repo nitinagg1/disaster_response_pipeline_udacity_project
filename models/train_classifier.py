@@ -23,6 +23,18 @@ from sklearn.metrics import classification_report
 
 
 def load_data(database_filepath):
+    """
+    Load the data
+
+    Inputs:
+    database_filepath: String. Filepath for the db file containing the cleaned data.
+
+    Output:
+    X: dataframe. Contains the feature data.
+    y: dataframe. Contains the labels (categories) data.
+    category_names: List of strings. Contains the labels names.
+    """
+
     engine = create_engine('sqlite:///' + database_filepath)
     df = pd.read_sql_table('MessageCategories2', engine)
     X = df['message']
@@ -32,6 +44,15 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """
+    Normalize, tokenize and stems texts.
+
+    Input:
+    text: string. Sentence containing a message.
+
+    Output:
+    stemmed_tokens: list of strings. A list of strings containing normalized and stemmed tokens.
+    """
     text = re.sub(r'[^a-zA-Z0-9]',' ',text.lower())
     
     #token messages
@@ -49,6 +70,13 @@ def tokenize(text):
 
 
 def build_model():
+    """
+    Builds a ML pipeline and performs gridsearch.
+    Args:
+    None
+    Returns:
+    cv: gridsearchcv object.
+    """
     pipeline = Pipeline([
         ('vect', CountVectorizer()),
         ('tfidf', TfidfTransformer()),
@@ -62,6 +90,20 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    Returns test accuracy, number of 1s and 0s, recall, precision and F1 Score.
+
+    Inputs:
+    model: model object. Instanciated model.
+    X_test: pandas dataframe containing test features.
+    y_test: pandas dataframe containing test labels.
+    category_names: list of strings containing category names.
+
+    Returns:
+    None
+
+    """
+
     y_pred = model.predict(X_test)
     print(classification_report(y_pred, Y_test.values, target_names=category_names))
     # print raw accuracy score 

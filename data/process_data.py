@@ -5,13 +5,30 @@ import numpy as np
 import sqlite3
 from sqlalchemy import create_engine
 
+
 def load_data(messages_filepath, categories_filepath):
+    """
+    Loads and merges datasets
+    Args:
+    messages_filepath: String. Filepath for the csv file containing the messages.
+    categories_filepath: String. Filepath for the csv file containing the categories.
+    Returns:
+    df: pandas dataframe. Dataframe containing messages and respective categories.
+    """
     categories = pd.read_csv(categories_filepath)
     messages = pd.read_csv(messages_filepath)
     df = messages.merge(categories, on='id')
     return df
 
+
 def clean_data(df):
+    """
+    Clean dataframes from uneeded columns, duplicates and text artifacts
+    Args:
+    df: pandas dataframe. Dataframe containing messages and categories.
+    Returns:
+    df: pandas dataframe. Dataframe containing cleaned version of messages and categories.
+    """
     categories = df['categories'].str.split(';', expand=True)
     row = categories.iloc[0]
     category_colnames = row.apply (lambda x: x.split('-')[0]).tolist()
@@ -29,6 +46,16 @@ def clean_data(df):
     return df
     
 def save_data(df, database_filename):
+    """
+    Save the cleaned data.
+
+    Input:
+    df: pandas dataframe. Dataframe containing cleaned version of messages and respective categories.
+    database_filename: String. Filename for the output database.
+
+    Output:
+    None.
+    """
     engine = create_engine('sqlite:///' + database_filename)
     df.to_sql('MessageCategories2', engine, index=False)
 

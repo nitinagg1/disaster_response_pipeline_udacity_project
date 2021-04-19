@@ -15,6 +15,15 @@ import numpy as np
 app = Flask(__name__)
 
 def tokenize(text):
+    """
+    Normalize, tokenize and stems texts.
+
+    Input:
+    text: string. Sentence containing a message.
+
+    Output:
+    stemmed_tokens: list of strings. A list of strings containing normalized and stemmed tokens.
+    """
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
