@@ -36,7 +36,7 @@ def load_data(database_filepath):
     """
 
     engine = create_engine('sqlite:///' + database_filepath)
-    df = pd.read_sql_table('MessageCategories2', engine)
+    df = pd.read_sql_table('MessageCategories', engine)
     X = df['message']
     y = df.iloc[:,4:]
     category_names = y.columns
